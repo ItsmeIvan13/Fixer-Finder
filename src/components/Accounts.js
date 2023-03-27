@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 function Accounts() {
     return ( 
         <div className="container mx-auto p-3 flex flex-col justify-center items-center">
-             <img src={logo} className='w-1/2'/>
+             <img src={logo} className='w-1/2' alt="Logo" />
 
              <h1 className='font-sans text-2xl font-bold py-3'>Select account type</h1>
 

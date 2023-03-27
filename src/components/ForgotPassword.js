@@ -15,7 +15,7 @@ function ForgotPassword() {
             </form>
             
             <div className="flex flex-row justify-center items-center gap-3 py-3">
-            <a className="bg-primary font-medium text-md text-white p-3 px-6 rounded-full">Send Email</a>
+            <a href="#" className="bg-primary font-medium text-md text-white p-3 px-6 rounded-full">Send Email</a>
             <Link to="/" className="text-primary font-medium">Cancel</Link>
             </div>
         </div>
