@@ -1,12 +1,13 @@
 import logo from './img/fixer_finder_logo.png'
-import { auth } from "../firebase"
+import { auth, db } from "../firebase"
 import { useState, useEffect } from 'react'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { setDoc, doc, getDoc } from "firebase/firestore"
 
 
 function SignUpFixer() {
@@ -24,21 +25,27 @@ function SignUpFixer() {
                 auth,
                 registerEmail,
                 registerPassword
-            ).then( (response) => {
-                const user = signInWithEmailAndPassword(
+            ).then( async (response) => {
+                await signInWithEmailAndPassword(
                     auth,
                     registerEmail,
                     registerPassword
-                )
+                ).then( async (anotherResponse) => {
+                    await setDoc( doc(db, "users", auth.currentUser.uid ), {
+                        FirstName: registerFirstName,
+                        Lastname: registerLastName,
+                        AccountType: "Fixer"
+                    })
+                })
             })
-
         }catch(e){
             console.log(e)
         }
     }
+    
 
     useEffect( () => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if(user){
                 // User just logged in
                 navigate("/dashboard")

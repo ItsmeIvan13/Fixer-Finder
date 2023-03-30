@@ -1,12 +1,13 @@
 import logo from './img/fixer_finder_logo.png'
-import { auth } from "../firebase"
+import { auth, db } from "../firebase"
 import { useState, useEffect } from 'react'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { doc, setDoc } from "firebase/firestore"
 
 
 function SignUpFinder() {
@@ -24,12 +25,18 @@ function SignUpFinder() {
                 auth,
                 registerEmail,
                 registerPassword
-            ).then( (response) => {
-                const user = signInWithEmailAndPassword(
+            ).then( async (response) => {
+                await signInWithEmailAndPassword(
                     auth,
                     registerEmail,
                     registerPassword
-                )
+                ).then( async (anotherResponse) => {
+                    await setDoc( doc(db, "users", auth.currentUser.uid ), {
+                        FirstName: registerFirstName,
+                        Lastname: registerLastName,
+                        AccountType: "Finder"
+                    })
+                })
             })
 
         }catch(e){
