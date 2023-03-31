@@ -16,4 +16,7 @@ code {
     monospace;
 }
 
+.bm-burger-button{
+  position: fixed;
+}
 

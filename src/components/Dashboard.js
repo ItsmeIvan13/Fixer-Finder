@@ -5,8 +5,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { slide as Menu, CrossIcon } from "react-burger-menu"; //para sa slide menu
 
 import { CgMenuLeftAlt } from "react-icons/cg";
-import { MdPersonSearch } from "react-icons/md";
-import { BsPersonCircle, BsFillArrowRightCircleFill } from "react-icons/bs";
+import { MdPersonSearch, MdManageAccounts } from "react-icons/md";
+import { BsPersonCircle, BsFillArrowRightCircleFill, BiHomeAlt, BsFillClipboard2CheckFill} from "react-icons/bs";
+import { BiHomeAlt2, BiLogOut } from "react-icons/bi";
+
+
+
 
 function Dashboard() {
 	const user = auth.currentUser;
@@ -49,41 +53,52 @@ function Dashboard() {
                 >
                     <h1>Welcome! {auth.currentUser.email}</h1>
                     <div className="py-6">
+                        <div className="flex flex-row justify-start items-start gap-2">
+                            <MdManageAccounts className="h-5 w-5"/>
                         <a id="home" className="" href="">
+                            Account
+                        </a>
+                    </div>
+                        </div>
+                    <div className="py-6 ">
+                        <div className="flex flex-row justify-start items-start gap-2 ">
+                        <BiHomeAlt2 className='h-5 w-5'/>
+                        <a id="about" className="text-base" href="">
                             Home
                         </a>
+                        </div>
                     </div>
                     <div className="py-6">
-                        <a id="about" className="" href="">
-                            About
-                        </a>
-                    </div>
-                    <div className="py-6">
+                    <div className="flex flex-row justify-start items-start gap-2 ">
+                        <BsFillClipboard2CheckFill className="h-5 w-5"/>
                         <a id="contact" className="" href="">
-                            Contact
+                            Activity
                         </a>
+                    </div>
                     </div>
                     <div className="py-6">
-                        <a className="" href="">
-                            Settings
-                        </a>
+                        <div className="flex flex-row justify-start items-start gap-2">
+                            <BiLogOut className="h-5 w-5" />
+                    <button onClick={logout}>Logout</button>
                     </div>
-
+                    </div>
                     <div className="pt-3">
-                        <button onClick={logout}>Logout</button>
+                        
                     </div>
                 </Menu>
 
                 <div className="container mx-auto p-3">
+                
+      
                     {/* SEARCH BAR INPUT*/}
-                    <form className="w-1/2 ml-10 mt-2 flex gap-2">
+                    <form className="relative w-full ml-10 mt-2 flex gap-2">
                         <input
-                            className="1/2 px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
+                            className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
                             placeholder="Search fixer's"
                         />
 
                         {/* BUTTON NG SEARCH BAR*/}
-                        <button>
+                        <button className="absolute inset-y-0 right-0 flex items-center px-1 bg-green-300 rounded-r-md">
                             <MdPersonSearch className="w-8 h-8 text-primary" />
                         </button>
                     </form>
@@ -174,7 +189,9 @@ function Dashboard() {
                             </div>
                         </div>
 
+                        <button>
                         <BsFillArrowRightCircleFill className="w-8 h-12 text-primary" />
+                        </button>
                     </div>
                 </div>
             </>
