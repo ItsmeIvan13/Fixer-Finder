@@ -1,7 +1,7 @@
 function DashboardFixers() {
     return ( 
         <div>
-            Test
+            test
         </div>
      );
 }
