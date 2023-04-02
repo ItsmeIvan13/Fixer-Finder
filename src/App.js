@@ -6,9 +6,10 @@ import ForgotPassword from './components/ForgotPassword';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Error404 from './components/Error404';
-
+import DashboardFixers from './components/DashboardFixers';
 function App() {
   return (
+   
     <Router>
     <Routes>
       <Route exact index path="/" element={<HomePage />} />
@@ -20,6 +21,10 @@ function App() {
       <Route path="*" element={ <Error404/> } />
     </Routes>
   </Router>
+    
+   
+   
+   
   );
 }
 

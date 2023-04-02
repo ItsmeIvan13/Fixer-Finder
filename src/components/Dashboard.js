@@ -91,9 +91,9 @@ function Dashboard() {
                 
       
                     {/* SEARCH BAR INPUT*/}
-                    <form className="relative w-full ml-10 mt-2 flex gap-2">
+                    <form className="relative w-72 ml-10 mt-2 flex gap-2">
                         <input
-                            className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
+                            className="w-72 px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
                             placeholder="Search fixer's"
                         />
 
