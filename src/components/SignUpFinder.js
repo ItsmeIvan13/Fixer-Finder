@@ -34,7 +34,8 @@ function SignUpFinder() {
                     await setDoc( doc(db, "users", auth.currentUser.uid ), {
                         FirstName: registerFirstName,
                         Lastname: registerLastName,
-                        AccountType: "Finder"
+                        AccountType: "Finder",
+                        UID: auth.currentUser.uid
                     })
                 })
             })

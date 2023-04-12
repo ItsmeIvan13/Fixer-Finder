@@ -34,7 +34,8 @@ function SignUpFixer() {
                     await setDoc( doc(db, "users", auth.currentUser.uid ), {
                         FirstName: registerFirstName,
                         Lastname: registerLastName,
-                        AccountType: "Fixer"
+                        AccountType: "Fixer",
+                        UID: auth.currentUser.uid
                     })
                 })
             })

@@ -22,21 +22,22 @@ function HomePage() {
 
 	useEffect( () => {
 		onAuthStateChanged(auth, (user) => {
-			redirectIfLoggedIn()
+            if(user){
+                sessionStorage.setItem("UID", user.uid)
+                redirectIfLoggedIn()
+            }
 		});
 
         async function redirectIfLoggedIn(){
             if(auth.currentUser){
-                
                 const userInformationPromise = await getDoc(doc(db, "users", auth.currentUser.uid))
                 const userInformation = (await( userInformationPromise.data()))
-                console.log(userInformation)
                 if(userInformation.AccountType === "Finder")
                     // If Finder
                     navigate("/dashboard")
-                else
+                else if(userInformation.AccountType === "Fixer")
                     // If Fixer
-                    navigate("/dashboard")
+                    navigate("/dashboard_Fixer")
             }
         }
 

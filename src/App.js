@@ -18,6 +18,7 @@ function App() {
       <Route path="/signupfixer" element={<SignUpFixer />} />
       <Route path="/signupfinder" element={<SignUpFinder />} />
       <Route path='/dashboard' element={<Dashboard/>} />  
+      <Route path='/dashboard_Fixer' element={<DashboardFixers/>} />
       <Route path="*" element={ <Error404/> } />
     </Routes>
   </Router>
