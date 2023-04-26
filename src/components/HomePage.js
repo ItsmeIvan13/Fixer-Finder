@@ -14,32 +14,27 @@ function HomePage() {
 
 	const login = async () => {
 		try {
-			const user = await signInWithEmailAndPassword(auth, username, password);
+			await signInWithEmailAndPassword(auth, username, password);
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
 	useEffect( () => {
-		onAuthStateChanged(auth, (user) => {
+		onAuthStateChanged(auth, async (user) => {
             if(user){
                 sessionStorage.setItem("UID", user.uid)
-                redirectIfLoggedIn()
+                await getDoc(doc(db, "users", auth.currentUser.uid)).then( async (userInformation) => {
+                    const finalData = (await (userInformation.data()))
+                    if(finalData.AccountType === "Finder")
+                        // If Finder
+                        navigate("/finder/dashboard")
+                    else if(finalData.AccountType === "Fixer")
+                        // If Fixer
+                        navigate("/fixer/dashboard")
+                })
             }
 		});
-
-        async function redirectIfLoggedIn(){
-            if(auth.currentUser){
-                const userInformationPromise = await getDoc(doc(db, "users", auth.currentUser.uid))
-                const userInformation = (await( userInformationPromise.data()))
-                if(userInformation.AccountType === "Finder")
-                    // If Finder
-                    navigate("/dashboard")
-                else if(userInformation.AccountType === "Fixer")
-                    // If Fixer
-                    navigate("/dashboard_Fixer")
-            }
-        }
 
 	}, [navigate]);
     

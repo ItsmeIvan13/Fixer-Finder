@@ -4,9 +4,10 @@ import SignUpFinder from './components/SignUpFinder';
 import Accounts from './components/Accounts';
 import ForgotPassword from './components/ForgotPassword';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
 import Error404 from './components/Error404';
-import DashboardFixers from './components/DashboardFixers';
+import EditAccount from './components/EditAccount';
+import DashboardFixer from './components/DashboardFixer';
+import DashboardFinder from './components/DashboardFinder';
 function App() {
   return (
    
@@ -17,8 +18,9 @@ function App() {
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/signupfixer" element={<SignUpFixer />} />
       <Route path="/signupfinder" element={<SignUpFinder />} />
-      <Route path='/dashboard' element={<Dashboard/>} />  
-      <Route path='/dashboard_Fixer' element={<DashboardFixers/>} />
+      <Route path='/finder/dashboard' element={<DashboardFinder/>} />  
+      <Route path='/finder/dashboard' element={<DashboardFixer/>} />  
+      <Route path='/accountsettings' element={<EditAccount/>} />
       <Route path="*" element={ <Error404/> } />
     </Routes>
   </Router>

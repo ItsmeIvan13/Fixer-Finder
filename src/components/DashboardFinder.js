@@ -12,7 +12,7 @@ import { BiHomeAlt2, BiLogOut } from "react-icons/bi";
 
 
 
-function Dashboard() {
+function DashboardFinder() {
 	const user = auth.currentUser;
 	const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ function Dashboard() {
                     <div className="py-6">
                         <div className="flex flex-row justify-start items-start gap-2">
                             <MdManageAccounts className="h-5 w-5"/>
-                        <a id="home" className="" href="">
+                        <a id="home" className="" href="/accountsettings">
                             Account
                         </a>
                     </div>
@@ -201,4 +201,4 @@ function Dashboard() {
     }
 }
 
-export default Dashboard;
+export default DashboardFinder;
