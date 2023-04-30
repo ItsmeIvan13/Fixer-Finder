@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase" 
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { getDoc, doc, updateDoc, addDoc, setDoc } from "firebase/firestore";
 
 function EditAccount() {
 	
@@ -31,15 +31,13 @@ function EditAccount() {
 
 	const [overview, setOverview] = useState("")
 
-	const [skillsA, setSkillsA] = useState("")
-	const [experienceA, setExperienceA] = useState("")
+	const [skills, setSkills] = useState([])
+	const [certification, setCertification] = useState([])
+	const [experience, setExperience] = useState([])
 
-	// const [skillsB, setSkillsB] = useState("")
-	// const [experienceB, setExperienceB] = useState("")
-	
-	// const [skillsC, setSkillsC] = useState("")
-	// const [experienceC, setExperienceC] = useState("")
-	
+	const handleAddCertificate = async (  ) => {
+		await addDoc(doc(db, "certifications"))
+	}
 
 	async function updateProfile(){
 		await updateDoc(doc(db, "users", auth.currentUser.uid), {
@@ -61,11 +59,10 @@ function EditAccount() {
 			Title: title,
 			Rate: rate,
 			Overview: overview,
-			SkillA: skillsA,
-			ExperienceA: experienceA
-		}).then( (response) => {
+			skills: skills
+		}).then( async (response) => {
 			console.log("Successfully Updated")
-			// Notification ng Success
+
 		})
 	}
 
@@ -81,7 +78,8 @@ function EditAccount() {
 	async function getUser(){
 		const userInformationPromise = await getDoc(doc(db, "users", sessionStorage.getItem("UID")))
 		const response = (await (userInformationPromise.data()))
-		setFirstName(response.FirstName)
+		setUserType( response.AccountType )
+		setFirstName(response.Firstname)
 		setLastName(response.Lastname)
 		setEmailAddress(auth.currentUser.email)
 		setMiddleName(response.MiddleName)
@@ -99,8 +97,10 @@ function EditAccount() {
 		setTitle(response.Title)
 		setRate(response.Rate)
 		setOverview(response.Overview)
-		setSkillsA(response.SkillA)
-		setExperienceA(response.ExperienceA)
+		response.skills.forEach( skill => {
+			if (skills.includes(skill)) return
+			skills.push(skill)
+		})
 	}
 	
 	
@@ -114,7 +114,7 @@ function EditAccount() {
             }
 		});
 		
-	}, [navigate]);
+	}, []);
 	return (
 		<div className="container mx-auto p-3 flex-row justify-start items-start">
 			<div className="flex justify-between items-center py-6">
@@ -160,8 +160,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ lastname }
 					onChange={ (event) => { setLastName(event.currentTarget.value) } }
+					value = { lastname }
 				/>
 
 				<label className="font-medium">
@@ -170,8 +170,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-					value={ firstname }
 					onChange={ (event) => { setFirstName(event.currentTarget.value) } }
+					value={ firstname }
 				/>
 				<div className="flex justify-between items-center py-3 gap-2">
 					<div>
@@ -179,8 +179,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-							value={ middlename }
 							onChange={ (event) => { setMiddleName(event.currentTarget.value) } }
+							value={ middlename ? middlename : "" }
 						/>
 					</div>
 
@@ -189,8 +189,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-							value={ suffix }
 							onChange={ (event) => { setSuffix(event.currentTarget.value) } }
+							value={ suffix ? suffix : "" }
 						/>
 					</div>
 				</div>
@@ -201,16 +201,16 @@ function EditAccount() {
 				<input
 					type="number"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ contactNo }
 					onChange={ (event) => { setContactNo(event.currentTarget.value) } }
+					value={ contactNo ? contactNo : "" }
 				/>
 
 				<label className="font-medium">Telephone Number </label>
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ telephoneNo }
 					onChange={ (event) => { setTelephoneNo(event.currentTarget.value) } }
+					value={ telephoneNo ? telephoneNo : "" }
 				/>
 
 				<label className="font-medium">
@@ -219,8 +219,8 @@ function EditAccount() {
 				<input
 					type="email"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ emailAddress }
 					readOnly
+					value={ emailAddress }
 				/>
 
 				<h1 className="font-sans font-medium text-lg text-center py-3 text-start pt-6">
@@ -235,8 +235,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							value={ block }
 							onChange={ (event) => { setBlock(event.currentTarget.value) } }
+							value={ block ? block : "" }
 						/>
 					</div>
 
@@ -247,8 +247,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							value={ lot }
 							onChange={ (event) => setLot(event.currentTarget.value) }
+							value={ lot ? lot : "" }
 						/>
 					</div>
 
@@ -259,8 +259,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							value={ houseNo }
 							onChange={ (event) => { setHouseNo(event.currentTarget.value) } }
+							value={ houseNo ? houseNo : "" }
 						/>
 					</div>
 				</div>
@@ -271,8 +271,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ province }
 					onChange={ event => { setProvince(event.currentTarget.value) } }
+					value={ province ? province : "" }
 				/>
 
 				<label className="font-medium">
@@ -280,9 +280,9 @@ function EditAccount() {
 				</label>
 				<input
 					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ barangay }
+					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" 
 					onChange={ event => { setBarangay(event.currentTarget.value) } }
+					value={ barangay ? barangay : "" }
 				/>
 
 				<label className="font-medium">
@@ -291,8 +291,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ region }
 					onChange={ event => setRegion(event.currentTarget.value) }
+					value={ region ? region : "" }
 				/>
 
 				<label className="font-medium">
@@ -301,8 +301,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ city }
 					onChange={ event => { setCity(event.currentTarget.value) } }
+					value={ city ? city : "" }
 				/>
 				<label className="font-medium">
 					Zip code <span className="text-red-500">*</span>
@@ -310,8 +310,8 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					value={ zipcode }
 					onChange={ event => { setZipcode(event.currentTarget.value) } }
+					value={ zipcode ? zipcode : ""}
 				/>
 				{ userType === "Fixer" &&
 					<div>
@@ -328,8 +328,8 @@ function EditAccount() {
 							<input
 								type="text"
 								className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-								value={ title }
 								onChange={ event => { setTitle(event.currentTarget.value) } }
+								value={ title ? title : ""}
 							/>
 						</div>
 
@@ -341,10 +341,10 @@ function EditAccount() {
 							<div className="flex justify-start items-center gap-3 ">
 								<div className="relative">
 									<input
-										type="text"
+										type="number"
 										className="w-full pl-8 px-3 py-2  text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-										value={ rate }
 										onChange={ event => { setRate(event.currentTarget.value) } }
+										value={ rate ? rate : 0 }
 									/>
 									<div className="absolute inset-y-0 left-1 flex items-center">
 										<TbCurrencyPeso className="w-6 h-6 text-primary" />
@@ -374,8 +374,8 @@ function EditAccount() {
 								className="border border-grey-200 focus:outline-green-500"
 								rows="7"
 								cols="35"
-								value={ overview }
 								onChange={ event => { setOverview(event.currentTarget.value) } }
+								value={ overview ? overview : "" } 
 							></textarea>
 						</div>
 
@@ -383,32 +383,37 @@ function EditAccount() {
 							Skills
 						</h1>
 
-						<div className="space-y-3">
-							<select onChange={ setSkillsA } value={ skillsA !== "" && skillsA } className="w-full px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500">
-								<option>Select Skills</option>
-								<option value={ "Painter" }>Painter</option>
-								<option value={ "Plumber" } >Plumber</option>
-								<option value={ "Carpenter" } >Carpenter</option>
-								<option value={ "Masonry" } >Masonry</option>
-								<option value={ "Framer" } >Framer</option>
-								<option value={ "Electrician" } >Electrician</option>
-								<option value={ "Roofer" } >Roofer</option>
-								<option value={ "Pipe Fitter" } >Pipe Fitter</option>
-							</select>
+						{	
+							skills?.map( (element, index) => {
+								return  <select
+										key={ index }
+										onChange={ event => { 
+											let newSkills = skills.map( (currentElement, currentIndex) => {
+												if ( currentIndex === index){
+													return event.currentTarget.value
+												}else{
+													return currentElement
+												}
+											})
+											setSkills(newSkills); 
+										}} 
+										className="w-full px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500"
+										value={ element }
+									>
+										<option>Select Skills</option>
+										<option value={ "Painter" }>Painter</option>
+										<option value={ "Plumber" } >Plumber</option>
+										<option value={ "Carpenter" } >Carpenter</option>
+										<option value={ "Masonry" } >Masonry</option>
+										<option value={ "Framer" } >Framer</option>
+										<option value={ "Electrician" } >Electrician</option>
+										<option value={ "Roofer" } >Roofer</option>
+										<option value={ "Pipe Fitter" } >Pipe Fitter</option>
+									</select>
+							})
+						}
 
-							<select onChange={ setExperienceA }  value={ experienceA !== "" && experienceA } className="w-full px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500">
-								<option>Years of Experienced</option>
-								<option value={ 1 } >1</option>
-								<option value={ 2 } >2</option>
-								<option value={ 3 } >3</option>
-								<option value={ 4 } >4</option>
-								<option value={ 5 } >5</option>
-								<option value={ 6 } >6</option>
-								<option value={ 7 }>7</option>
-								<option value={ 8 } >8 and more</option>
-							</select>
-
-						</div>
+						
 
 						<div className="flex justify-between items-center py-6">
 							<h1 className="font-sans font-medium text-lg text-center py-3">
@@ -435,21 +440,7 @@ function EditAccount() {
 								Add
 							</button>
 						</div>
-
-						<div className="flex justify-between items-center py-6">
-							<h1 className="font-sans font-medium text-lg text-center py-3">
-								Other experience
-							</h1>
-
-							<button
-								type="button"
-								className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
-							>
-								Add
-							</button>
-						</div>
 					</div>
-					
 					
 				}
 			</form>

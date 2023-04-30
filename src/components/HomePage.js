@@ -26,12 +26,16 @@ function HomePage() {
                 sessionStorage.setItem("UID", user.uid)
                 await getDoc(doc(db, "users", auth.currentUser.uid)).then( async (userInformation) => {
                     const finalData = (await (userInformation.data()))
-                    if(finalData.AccountType === "Finder")
+                    if(finalData.AccountType === "Finder"){
                         // If Finder
                         navigate("/finder/dashboard")
-                    else if(finalData.AccountType === "Fixer")
+                        return
+                    }
+                    else if(finalData.AccountType === "Fixer"){
                         // If Fixer
                         navigate("/fixer/dashboard")
+                        return
+                    }
                 })
             }
 		});

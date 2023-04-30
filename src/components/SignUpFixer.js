@@ -35,7 +35,10 @@ function SignUpFixer() {
                         FirstName: registerFirstName,
                         Lastname: registerLastName,
                         AccountType: "Fixer",
-                        UID: auth.currentUser.uid
+                        UID: auth.currentUser.uid,
+                        skills: [],
+                        certification: [],
+                        experience: []
                     })
                 })
             })

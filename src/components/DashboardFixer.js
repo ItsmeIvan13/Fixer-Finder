@@ -102,7 +102,7 @@ function DashboardFixer() {
       </>
     );
   else {
-    <Navigate replace to="/" />;
+    return <Navigate replace to="/" />;
   }
 }
 
