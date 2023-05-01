@@ -34,7 +34,7 @@ function DashboardFinder() {
 
 
 	const [isOpen, setIsOpen] = useState(false);
-    if(auth.currentUser)
+{/* if(auth.currentUser) */} 
         return (
             // SET TO EMAIL MUNA YUNG SA USERNAME, SETTUP KO PA MUNA YUNG NEED KASI SABAY DAPAT SA REGISTRATION
 
@@ -51,7 +51,7 @@ function DashboardFinder() {
                     onStateChange={(state) => setIsOpen(state.isOpen)}
                     className="flex flex-col justify-center items-center pt-32 bg-gray-200"
                 >
-                    <h1>Welcome! {auth.currentUser.email}</h1>
+                 {/*   <h1>Welcome! {auth.currentUser.email}</h1>*/}
                     <div className="py-6">
                         <div className="flex flex-row justify-start items-start gap-2">
                             <MdManageAccounts className="h-5 w-5"/>
@@ -196,9 +196,9 @@ function DashboardFinder() {
                 </div>
             </>
         )
-    else{
+  {/*     else{
         <Navigate replace to="/"/>
-    }
+    }*/} 
 }
 
 export default DashboardFinder;

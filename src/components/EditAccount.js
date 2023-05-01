@@ -127,7 +127,7 @@ function EditAccount() {
 	}
 	
 	
-	useEffect(() => {
+ {/*	 useEffect(() => {
 		
 		getUser()
 		onAuthStateChanged(auth, (user) => {
@@ -137,7 +137,7 @@ function EditAccount() {
             }
 		});
 		
-	}, []);
+	}, []);*/} 
 	return (
 		<div className="container mx-auto p-3 flex-row justify-start items-start">
 			<div className="flex justify-between items-center py-6">
@@ -490,6 +490,38 @@ function EditAccount() {
 					
 				}
 			</form>
+
+			<div>
+				<h1 className="font-sans text-start text-lg font-medium space-y-3">Skills</h1>
+
+				<div className="flex justify-between">
+				
+				<div className="">
+				<input type="checkbox" value="Painter"/>
+				<label>Painter</label><br></br>
+				<input type="checkbox" value="Plumber"/>
+				<label>Plumber</label><br></br>
+				<input type="checkbox" value="Electrician"/>
+				<label>Electrician</label><br></br>
+				<input type="checkbox" value="Tiles setter"/>
+				<label>Tiles setter</label><br></br>
+				<input type="checkbox" value="Roofer"/>
+				<label>Roofer</label>
+				</div>
+
+				<div>
+				<input type="checkbox" value="Mason"/>
+				<label>Mason</label><br></br>
+				<input type="checkbox" value="Flooring"/>
+				<label>Flooring</label><br></br>
+				<input type="checkbox" value="Concrete"/>
+				<label>Concrete</label><br></br>
+				<input type="checkbox" value="Pipefitter"/>
+				<label>Pipefitter</label><br></br>
+				</div>
+
+				</div>
+			</div>
 		</div>
 	);
 }

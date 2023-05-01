@@ -44,7 +44,7 @@ function DashboardFixer() {
 
 
   const [isOpen, setIsOpen] = useState(false);
-  if (auth.currentUser)
+ {/* if (auth.currentUser)   */}
     return (
       // SET TO EMAIL MUNA YUNG SA USERNAME, SETTUP KO PA MUNA YUNG NEED KASI SABAY DAPAT SA REGISTRATION
 
@@ -64,7 +64,7 @@ function DashboardFixer() {
           onStateChange={(state) => setIsOpen(state.isOpen)}
           className="flex flex-col justify-center items-center pt-32 bg-gray-200"
         >
-          <h1>Welcome! { userDisplayName }</h1>
+    {/*       <h1>Welcome! { userDisplayName }</h1>  */}
           <div className="py-6">
             <div className="flex flex-row justify-start items-start gap-2">
               <MdManageAccounts className="h-5 w-5" />
@@ -84,7 +84,7 @@ function DashboardFixer() {
           <div className="py-6">
             <div className="flex flex-row justify-start items-start gap-2 ">
               <BsFillClipboard2CheckFill className="h-5 w-5" />
-              <a id="contact" className="" href="">
+              <a id="contact" className="" href="/message">
                 Activity
               </a>
             </div>
@@ -98,12 +98,19 @@ function DashboardFixer() {
           <div className="pt-3"></div>
         </Menu>
 
-        <div className="container mx-auto p-3"></div>
+        <div className="container mx-auto p-3">
+
+      <h1 className="text-center space-y-6 font-sans font-medium text-medium pt-6">Welcome Fixer!</h1>
+
+
+        </div>
       </>
     );
-  else {
+ {/* else {
     return <Navigate replace to="/" />;
   }
+*/}
+  
 }
 
 export default DashboardFixer;

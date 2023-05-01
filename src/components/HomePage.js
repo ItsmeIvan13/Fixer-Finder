@@ -20,7 +20,7 @@ function HomePage() {
 		}
 	};
 
-	useEffect( () => {
+{/*  useEffect( () => {
 		onAuthStateChanged(auth, async (user) => {
             if(user){
                 sessionStorage.setItem("UID", user.uid)
@@ -41,7 +41,7 @@ function HomePage() {
 		});
 
 	}, [navigate]);
-    
+    */}	
     return (
         <div className="container mx-auto p-3 flex flex-col justify-center items-center">
             <img src={logo} alt="fixer_finder" className="w-1/2 " />
