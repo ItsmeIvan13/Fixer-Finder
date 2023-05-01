@@ -10,26 +10,26 @@ function EditAccount() {
 	const navigate = useNavigate()
 	const [userType, setUserType] = useState("Finder")
 
-	const [firstname, setFirstName] = useState("")
-	const [lastname, setLastName] = useState("")
-	const [middlename, setMiddleName]  = useState("")
-	const [suffix, setSuffix] = useState("")
-	const [contactNo, setContactNo] = useState("")
-	const [telephoneNo, setTelephoneNo] = useState('')
-	const [emailAddress, setEmailAddress] = useState("")
-	const [block, setBlock] = useState("")
-	const [lot, setLot] = useState("")
-	const [houseNo, setHouseNo] = useState("")
-	const [province, setProvince] = useState("")
-	const [barangay, setBarangay] = useState("")
-	const [region, setRegion] = useState("")
-	const [city, setCity] = useState("")
-	const [zipcode, setZipcode] = useState("")
+	const [firstname, setFirstName] = useState("N/A")
+	const [lastname, setLastName] = useState("N/A")
+	const [middlename, setMiddleName] = useState("N/A")
+	const [suffix, setSuffix] = useState("N/A")
+	const [contactNo, setContactNo] = useState("N/A")
+	const [telephoneNo, setTelephoneNo] = useState('N/A')
+	const [emailAddress, setEmailAddress] = useState("N/A")
+	const [block, setBlock] = useState("N/A")
+	const [lot, setLot] = useState("N/A")
+	const [houseNo, setHouseNo] = useState("N/A")
+	const [province, setProvince] = useState("N/A")
+	const [barangay, setBarangay] = useState("N/A")
+	const [region, setRegion] = useState("N/A")
+	const [city, setCity] = useState("N/A")
+	const [zipcode, setZipcode] = useState("N/A")
 	
-	const [title, setTitle] = useState("")
-	const [rate, setRate] = useState("")
+	const [title, setTitle] = useState("N/A")
+	const [rate, setRate] = useState("N/A")
 
-	const [overview, setOverview] = useState("")
+	const [overview, setOverview] = useState("N/A")
 
 	const [skills, setSkills] = useState([])
 	const [certification, setCertification] = useState([])
@@ -40,27 +40,50 @@ function EditAccount() {
 	}
 
 	async function updateProfile(){
-		await updateDoc(doc(db, "users", auth.currentUser.uid), {
-			// Data TO Update
-			FirstName: firstname,
-			Lastname: lastname,
-			MiddleName: middlename,
-			Suffix: suffix,
-			ContactNo: contactNo,
-			TelephoneNo: telephoneNo,
-			Block: block,
-			Lot: lot,
-			HouseNo: houseNo,
-			Province: province,
-			Barangay: barangay,
-			Region: region,
-			City: city,
-			ZipCode: zipcode,
-			Title: title,
-			Rate: rate,
-			Overview: overview,
-			skills: skills
-		}).then( async (response) => {
+		console.log(middlename)
+		let object = {}
+		if(userType === "Finder"){
+			object = {
+				FirstName: firstname,
+				Lastname: lastname,
+				MiddleName: middlename,
+				Suffix: suffix,
+				ContactNo: contactNo,
+				TelephoneNo: telephoneNo,
+				Block: block,
+				Lot: lot,
+				HouseNo: houseNo,
+				Province: province,
+				Barangay: barangay,
+				Region: region,
+				City: city,
+				ZipCode: zipcode
+			}
+		}
+		else{
+			object = {
+				FirstName: firstname,
+				Lastname: lastname,
+				MiddleName: middlename,
+				Suffix: suffix,
+				ContactNo: contactNo,
+				TelephoneNo: telephoneNo,
+				Block: block,
+				Lot: lot,
+				HouseNo: houseNo,
+				Province: province,
+				Barangay: barangay,
+				Region: region,
+				City: city,
+				ZipCode: zipcode,
+				Title: title,
+				Rate: rate,
+				Overview: overview,
+				skills: skills
+			}
+		}
+
+		await updateDoc(doc(db, "users", auth.currentUser.uid), object).then( async (response) => {
 			console.log("Successfully Updated")
 
 		})
@@ -82,21 +105,21 @@ function EditAccount() {
 		setFirstName(response.Firstname)
 		setLastName(response.Lastname)
 		setEmailAddress(auth.currentUser.email)
-		setMiddleName(response.MiddleName)
-		setSuffix(response.Suffix)
-		setContactNo(response.ContactNo)
-		setTelephoneNo(response.TelephoneNo)
-		setBlock(response.Block)
-		setLot(response.Lot)
-		setHouseNo(response.HouseNo)
-		setProvince(response.Province)
-		setBarangay(response.Barangay)
-		setRegion(response.Region)
-		setCity(response.City)
-		setZipcode(response.ZipCode)
-		setTitle(response.Title)
-		setRate(response.Rate)
-		setOverview(response.Overview)
+		setMiddleName(response.MiddleName ? response.MiddleName : "N/A")
+		setSuffix(response.Suffix ? response.Suffix : "N/A")
+		setContactNo(response.ContactNo ? response.ContactNo : "N/A")
+		setTelephoneNo(response.TelephoneNo ? response.TelephoneNo : "N/A")
+		setBlock(response.Block ? response.Block : "N/A")
+		setLot(response.Lot ? response.Lot : "N/A")
+		setHouseNo(response.HouseNo ? response.HouseNo : "N/A")
+		setProvince(response.Province ? response.Province : "N/A")
+		setBarangay(response.Barangay ? response.Barangay : "N/A")
+		setRegion(response.Region ? response.Region : "N/A")
+		setCity(response.City ? response.City : "N/A")
+		setZipcode(response.ZipCode ? response.ZipCode : "N/A")
+		setTitle(response.Title ? response.Title : "N/A")
+		setRate(response.Rate ? response.Rate : 0)
+		setOverview(response.Overview ? response.Overview : "N/A")
 		response.skills.forEach( skill => {
 			if (skills.includes(skill)) return
 			skills.push(skill)
@@ -180,7 +203,7 @@ function EditAccount() {
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
 							onChange={ (event) => { setMiddleName(event.currentTarget.value) } }
-							value={ middlename ? middlename : "" }
+							value={ middlename ? middlename : "N/A" }
 						/>
 					</div>
 
@@ -190,7 +213,7 @@ function EditAccount() {
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
 							onChange={ (event) => { setSuffix(event.currentTarget.value) } }
-							value={ suffix ? suffix : "" }
+							value={ suffix ? suffix : "N/A" }
 						/>
 					</div>
 				</div>
@@ -199,10 +222,10 @@ function EditAccount() {
 					Contact Number <span className="text-red-500">*</span>
 				</label>
 				<input
-					type="number"
+					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
 					onChange={ (event) => { setContactNo(event.currentTarget.value) } }
-					value={ contactNo ? contactNo : "" }
+					value={ contactNo ? contactNo : "N/A" }
 				/>
 
 				<label className="font-medium">Telephone Number </label>
@@ -210,7 +233,7 @@ function EditAccount() {
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
 					onChange={ (event) => { setTelephoneNo(event.currentTarget.value) } }
-					value={ telephoneNo ? telephoneNo : "" }
+					value={ telephoneNo ? telephoneNo : "N/A" }
 				/>
 
 				<label className="font-medium">
@@ -223,96 +246,103 @@ function EditAccount() {
 					value={ emailAddress }
 				/>
 
-				<h1 className="font-sans font-medium text-lg text-center py-3 text-start pt-6">
-					Address Information
-				</h1>
+				{ userType === "Finder" &&
+					<>
+						<h1 className="font-sans font-medium text-lg text-center py-3 text-start pt-6">
+							Address Information
+						</h1>
 
-				<div className="flex justify-between items-center gap-2">
-					<div>
+						<div className="flex justify-between items-center gap-2">
+							<div>
+								<label className="font-medium">
+									Block <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
+									onChange={ (event) => { setBlock(event.currentTarget.value) } }
+									value={ block ? block : "N/A" }
+								/>
+							</div>
+
+							<div>
+								<label className="font-medium">
+									Lot <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
+									onChange={ (event) => setLot(event.currentTarget.value) }
+									value={ lot ? lot : "N/A" }
+								/>
+							</div>
+
+							<div>
+								<label className="font-medium">
+									House Number <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
+									onChange={ (event) => { setHouseNo(event.currentTarget.value) } }
+									value={ houseNo ? houseNo : "N/A" }
+								/>
+							</div>
+						</div>
+
 						<label className="font-medium">
-							Block <span className="text-red-500">*</span>
+							Province <span className="text-red-500">*</span>
 						</label>
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ (event) => { setBlock(event.currentTarget.value) } }
-							value={ block ? block : "" }
+							onChange={ event => { setProvince(event.currentTarget.value) } }
+							value={ province ? province : "N/A" }
 						/>
-					</div>
 
-					<div>
 						<label className="font-medium">
-							Lot <span className="text-red-500">*</span>
+							Barangay <span className="text-red-500">*</span>
+						</label>
+						<input
+							type="text"
+							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" 
+							onChange={ event => { setBarangay(event.currentTarget.value) } }
+							value={ barangay ? barangay : "N/A" }
+						/>
+
+						<label className="font-medium">
+							Region <span className="text-red-500">*</span>
 						</label>
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ (event) => setLot(event.currentTarget.value) }
-							value={ lot ? lot : "" }
+							onChange={ event => setRegion(event.currentTarget.value) }
+							value={ region ? region : "N/A" }
 						/>
-					</div>
 
-					<div>
 						<label className="font-medium">
-							House Number <span className="text-red-500">*</span>
+							City <span className="text-red-500">*</span>
 						</label>
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ (event) => { setHouseNo(event.currentTarget.value) } }
-							value={ houseNo ? houseNo : "" }
+							onChange={ event => { setCity(event.currentTarget.value) } }
+							value={ city ? city : "N/A" }
 						/>
-					</div>
-				</div>
+						<label className="font-medium">
+							Zip code <span className="text-red-500">*</span>
+						</label>
+						<input
+							type="text"
+							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
+							onChange={ event => { setZipcode(event.currentTarget.value) } }
+							value={ zipcode ? zipcode : "N/A"}
+						/>
+					
+					</>
+				}
 
-				<label className="font-medium">
-					Province <span className="text-red-500">*</span>
-				</label>
-				<input
-					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ event => { setProvince(event.currentTarget.value) } }
-					value={ province ? province : "" }
-				/>
-
-				<label className="font-medium">
-					Barangay <span className="text-red-500">*</span>
-				</label>
-				<input
-					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" 
-					onChange={ event => { setBarangay(event.currentTarget.value) } }
-					value={ barangay ? barangay : "" }
-				/>
-
-				<label className="font-medium">
-					Region <span className="text-red-500">*</span>
-				</label>
-				<input
-					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ event => setRegion(event.currentTarget.value) }
-					value={ region ? region : "" }
-				/>
-
-				<label className="font-medium">
-					City <span className="text-red-500">*</span>
-				</label>
-				<input
-					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ event => { setCity(event.currentTarget.value) } }
-					value={ city ? city : "" }
-				/>
-				<label className="font-medium">
-					Zip code <span className="text-red-500">*</span>
-				</label>
-				<input
-					type="text"
-					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ event => { setZipcode(event.currentTarget.value) } }
-					value={ zipcode ? zipcode : ""}
-				/>
+				
 				{ userType === "Fixer" &&
 					<div>
 						
@@ -329,7 +359,7 @@ function EditAccount() {
 								type="text"
 								className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
 								onChange={ event => { setTitle(event.currentTarget.value) } }
-								value={ title ? title : ""}
+								value={ title ? title : "N/A"}
 							/>
 						</div>
 
@@ -375,43 +405,59 @@ function EditAccount() {
 								rows="7"
 								cols="35"
 								onChange={ event => { setOverview(event.currentTarget.value) } }
-								value={ overview ? overview : "" } 
+								value={ overview ? overview : "N/A" } 
 							></textarea>
 						</div>
 
 						<h1 className="font-sans font-medium text-lg text-center py-3 text-start pt-6">
 							Skills
 						</h1>
+						<div className="flex justify-between items-center py-6">
+							{	
+								skills?.map( (element, index) => {
+									return <div key={ index }>
+										<select
+												key={ index }
+												onChange={ event => { 
+													let newSkills = skills.map( (currentElement, currentIndex) => {
+														if ( currentIndex === index){
+															return event.currentTarget.value
+														}else{
+															return currentElement
+														}
+													})
+													setSkills(newSkills); 
+												}} 
+												name={ skills }
+												className="px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500"
+												value={ element }
+											>
+												<option>Select Skills</option>
+												<option value={ "Painter" }>Painter</option>
+												<option value={ "Plumber" } >Plumber</option>
+												<option value={ "Carpenter" } >Carpenter</option>
+												<option value={ "Masonry" } >Masonry</option>
+												<option value={ "Framer" } >Framer</option>
+												<option value={ "Electrician" } >Electrician</option>
+												<option value={ "Roofer" } >Roofer</option>
+												<option value={ "Pipe Fitter" } >Pipe Fitter</option>
+										</select>
+									</div> 
+									
+								})
+							}
 
-						{	
-							skills?.map( (element, index) => {
-								return  <select
-										key={ index }
-										onChange={ event => { 
-											let newSkills = skills.map( (currentElement, currentIndex) => {
-												if ( currentIndex === index){
-													return event.currentTarget.value
-												}else{
-													return currentElement
-												}
-											})
-											setSkills(newSkills); 
-										}} 
-										className="w-full px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500"
-										value={ element }
-									>
-										<option>Select Skills</option>
-										<option value={ "Painter" }>Painter</option>
-										<option value={ "Plumber" } >Plumber</option>
-										<option value={ "Carpenter" } >Carpenter</option>
-										<option value={ "Masonry" } >Masonry</option>
-										<option value={ "Framer" } >Framer</option>
-										<option value={ "Electrician" } >Electrician</option>
-										<option value={ "Roofer" } >Roofer</option>
-										<option value={ "Pipe Fitter" } >Pipe Fitter</option>
-									</select>
-							})
-						}
+							<button
+								className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
+								type="button"
+								onClick={ event => {
+									setSkills([ ...skills, "" ])
+								}}
+							>
+								Add
+							</button>
+							
+						</div>
 
 						
 
