@@ -76,7 +76,7 @@ function DashboardFixer() {
           <div className="py-6 ">
             <div className="flex flex-row justify-start items-start gap-2 ">
               <BiHomeAlt2 className="h-5 w-5" />
-              <a id="about" className="text-base" href="">
+              <a id="about" className="text-base" href="/fixer/dashboard">
                 Home
               </a>
             </div>
@@ -102,6 +102,20 @@ function DashboardFixer() {
 
       <h1 className="text-center space-y-6 font-sans font-medium text-medium pt-6">Welcome Fixer!</h1>
 
+        <div className="flex justify-center items-center gap-3 pt-6">
+          <div className="bg-primary p-3 rounded-lg">
+          <h1 className="text-white font-sans text-center">Transaction</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+          <div className="bg-primary p-3 rounded-lg">
+          <h1 className="text-white font-sans text-center">Contracts</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+          <div className="bg-primary p-3 rounded-xl">
+          <h1 className="text-white font-sans text-center">Messages</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+        </div>
 
         </div>
       </>
