@@ -38,7 +38,23 @@ function SignUpFixer() {
                         UID: auth.currentUser.uid,
                         skills: [],
                         certification: [],
-                        experience: []
+                        experience: [],
+                        profilePicture: "",
+                        views: 0,
+                        match: 0,
+                        Barangay: "",
+                        Block: "",
+                        City: "",
+                        ContactNo: "",
+                        HouseNo: "",
+                        Lot: "",
+                        Overview: "",
+                        Province: "",
+                        Rate: 0,
+                        Region: "",
+                        Suffix: "",
+                        Title: "",
+                        Zipcode: "",
                     })
                 })
             })
@@ -52,7 +68,7 @@ function SignUpFixer() {
         onAuthStateChanged(auth, async (user) => {
             if(user){
                 // User just logged in
-                navigate("/dashboard")
+                navigate("/fixer/dashboard")
             }
         })
     }, [navigate])

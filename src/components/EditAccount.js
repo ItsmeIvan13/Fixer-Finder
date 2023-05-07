@@ -2,12 +2,25 @@ import { TbCurrencyPeso } from "react-icons/tb";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../firebase" 
+import { auth, db, storage } from "../firebase" 
 import { getDoc, doc, updateDoc, addDoc, setDoc } from "firebase/firestore";
-
+import Swal from "sweetalert2";
+import { ref, uploadBytes } from "firebase/storage";
+import { slide as Menu, CrossIcon } from "react-burger-menu"; //para sa slide menu
+import { CgMenuLeftAlt } from "react-icons/cg";
+import { MdManageAccounts } from "react-icons/md";
+import {
+	BsFillClipboard2CheckFill,
+} from "react-icons/bs";
+import { BiHomeAlt2, BiLogOut } from "react-icons/bi";
 function EditAccount() {
 	
 	const navigate = useNavigate()
+
+	const [userImage, setUserImage] = useState("")
+
+	const [userDisplayName, setUserDisplayName] = useState("")
+
 	const [userType, setUserType] = useState("Finder")
 
 	const [firstname, setFirstName] = useState("N/A")
@@ -32,6 +45,17 @@ function EditAccount() {
 	const [overview, setOverview] = useState("N/A")
 
 	const [skills, setSkills] = useState([])
+
+	const [carpenty, setCarpentry] = useState(false)
+	const [plumber, setPlumber] = useState(false)
+	const [electrician, setElectrician] = useState(false)
+	const [tileSetter, setTileSetter] = useState(false)
+	const [roofer, setRoofer] = useState(false)
+	const [mason, setMason] = useState(false)
+	const [flooring, setFlooring] = useState(false)
+	const [concrete, setConcrete] = useState(false)
+	const [pipeFitter, setPipeFitter] = useState(false)
+	
 	const [certification, setCertification] = useState([])
 	const [experience, setExperience] = useState([])
 
@@ -39,11 +63,21 @@ function EditAccount() {
 		await addDoc(doc(db, "certifications"))
 	}
 
-	async function updateProfile(){
-		console.log(middlename)
+	
+	const logout = async () => {
+		try {
+			auth.signOut();
+			navigate("/");
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	async function handleUpdate(){
 		let object = {}
 		if(userType === "Finder"){
 			object = {
+				profilePicture: userImage,
 				FirstName: firstname,
 				Lastname: lastname,
 				MiddleName: middlename,
@@ -62,6 +96,7 @@ function EditAccount() {
 		}
 		else{
 			object = {
+				profilePicture: userImage,
 				FirstName: firstname,
 				Lastname: lastname,
 				MiddleName: middlename,
@@ -79,66 +114,151 @@ function EditAccount() {
 				Title: title,
 				Rate: rate,
 				Overview: overview,
-				skills: skills
+				skills: getSkill(),
+				experience: experience,
+				certification: certification
 			}
 		}
 
 		await updateDoc(doc(db, "users", auth.currentUser.uid), object).then( async (response) => {
-			console.log("Successfully Updated")
+			Swal.fire({
+				title: "Profile has been Successfully updated",
+				icon: "success"
+			}).then( last => {
 
+			})
 		})
 	}
 
-	const logout = async() => {
-		try {
-			auth.signOut();
-		} catch (e) {
-			console.log(e);
-		}
+	const prepareCertifications = ( ) => {
+		let returnedData = []
+		
+		certification.forEach( async (element, index) => {
+			await uploadBytes( ref(storage, auth.currentUser.uid + "/" + element.file.name), element.file).then( (response) => {
+				returnedData.push({ file: auth.currentUser.uid + "/" + element.file.name, description: element.description })
+			})
+		})
+		return returnedData
 	}
-
 
 	async function getUser(){
-		const userInformationPromise = await getDoc(doc(db, "users", sessionStorage.getItem("UID")))
-		const response = (await (userInformationPromise.data()))
-		setUserType( response.AccountType )
-		setFirstName(response.Firstname)
-		setLastName(response.Lastname)
-		setEmailAddress(auth.currentUser.email)
-		setMiddleName(response.MiddleName ? response.MiddleName : "N/A")
-		setSuffix(response.Suffix ? response.Suffix : "N/A")
-		setContactNo(response.ContactNo ? response.ContactNo : "N/A")
-		setTelephoneNo(response.TelephoneNo ? response.TelephoneNo : "N/A")
-		setBlock(response.Block ? response.Block : "N/A")
-		setLot(response.Lot ? response.Lot : "N/A")
-		setHouseNo(response.HouseNo ? response.HouseNo : "N/A")
-		setProvince(response.Province ? response.Province : "N/A")
-		setBarangay(response.Barangay ? response.Barangay : "N/A")
-		setRegion(response.Region ? response.Region : "N/A")
-		setCity(response.City ? response.City : "N/A")
-		setZipcode(response.ZipCode ? response.ZipCode : "N/A")
-		setTitle(response.Title ? response.Title : "N/A")
-		setRate(response.Rate ? response.Rate : 0)
-		setOverview(response.Overview ? response.Overview : "N/A")
-		response.skills.forEach( skill => {
-			if (skills.includes(skill)) return
-			skills.push(skill)
+		await getDoc(doc(db, "users", auth.currentUser.uid)).then( async userInformationPromise =>  {
+			const response = userInformationPromise.data()
+			setUserType( response.AccountType )
+			setFirstName(response.FirstName)
+			setLastName(response.Lastname)
+			setEmailAddress(auth.currentUser.email)
+			setMiddleName(response.MiddleName ? response.MiddleName : "N/A")
+			setSuffix(response.Suffix ? response.Suffix : "N/A")
+			setContactNo(response.ContactNo ? response.ContactNo : "N/A")
+			setTelephoneNo(response.TelephoneNo ? response.TelephoneNo : "N/A")
+			setBlock(response.Block ? response.Block : "N/A")
+			setLot(response.Lot ? response.Lot : "N/A")
+			setHouseNo(response.HouseNo ? response.HouseNo : "N/A")
+			setProvince(response.Province ? response.Province : "N/A")
+			setBarangay(response.Barangay ? response.Barangay : "N/A")
+			setRegion(response.Region ? response.Region : "N/A")
+			setCity(response.City ? response.City : "N/A")
+			setZipcode(response.ZipCode ? response.ZipCode : "N/A")
+			setTitle(response.Title ? response.Title : "N/A")
+			setRate(response.Rate ? response.Rate : 0)
+			setOverview(response.Overview ? response.Overview : "N/A")
+			if( response.AccountType === "Fixer" ){
+				if (response.skills.includes("Carpentry")) setCarpentry(true)
+				if (response.skills.includes("Plumber")) setPlumber(true)
+				if (response.skills.includes("Electrician")) setElectrician(true)
+				if (response.skills.includes("Tile Setter")) setTileSetter(true)
+				if (response.skills.includes("Roofer")) setRoofer(true)
+				if (response.skills.includes("Mason")) setMason(true)
+				if (response.skills.includes("Flooring")) setFlooring(true)
+				if (response.skills.includes("Concrete")) setConcrete(true)
+				if (response.skills.includes("Pipefitter")) setPipeFitter(true)
+				setCertification(response.certification)
+				setExperience(response.experience)
+			}
+			setUserImage(response.profilePicture ? response.profilePicture : "")
+			setUserDisplayName(response.FirstName + " " + response.Lastname)
 		})
 	}
-	
+
+	const getSkill = () => {
+		let returned = []
+		if (carpenty) returned.push("Carpentry")
+		if (plumber) returned.push("Plumber")
+		if (electrician) returned.push("Electrician")
+		if (tileSetter) returned.push("Tile Setter")
+		if (roofer) returned.push("Roofer")
+		if (mason) returned.push("Mason")
+		if (flooring) returned.push("Flooring")
+		if (concrete) returned.push("Concrete")
+		if (pipeFitter) returned.push("Pipefitter")
+		return returned
+	}
+
 	
 	useEffect(() => {
 		
-		getUser()
 		onAuthStateChanged(auth, (user) => {
 			if (!user) {
 				// User just logged Out
-				navigate("/");
+				navigate("/")
+				return
             }
+			getUser()
 		});
 		
 	}, []);
-	return (
+
+	
+	const [isOpen, setIsOpen] = useState(false);
+
+	return (<>
+	
+		<button
+			onClick={() => setIsOpen(true)}
+			className="bm-burger-button p-3"
+		>
+			<CgMenuLeftAlt className="w-8 h-16" />
+		</button>
+
+		<Menu
+			isOpen={isOpen}
+			onStateChange={(state) => setIsOpen(state.isOpen)}
+			className="flex flex-col justify-center items-center px-5 pt-32 bg-gray-200"
+		>
+			<h1>Welcome! { userDisplayName }</h1>
+			<div className="py-6 ">
+				<div className="flex flex-row justify-start items-start gap-2 ">
+					<BiHomeAlt2 className="h-5 w-5" />
+					<a id="about" className="text-base" href="/fixer/dashboard">
+						Home
+					</a>
+				</div>
+			</div>
+			<div className="py-6">
+				<div className="flex flex-row justify-start items-start gap-2">
+					<MdManageAccounts className="h-5 w-5" />
+					<a id="home" className="" href="/accountsettings">
+						Account
+					</a>
+				</div>
+			</div>
+			<div className="py-6">
+				<div className="flex flex-row justify-start items-start gap-2 ">
+					<BsFillClipboard2CheckFill className="h-5 w-5" />
+					<a id="message" className="" href="/messages">
+						Messages
+					</a>
+				</div>
+			</div>
+			<div className="py-6">
+				<div className="flex flex-row justify-start items-start gap-2">
+					<BiLogOut className="h-5 w-5" />
+					<button onClick={logout}>Logout</button>
+				</div>
+			</div>
+			<div className="pt-3"></div>
+		</Menu>
 		<div className="container mx-auto p-3 flex-row justify-start items-start">
 			<div className="flex justify-between items-center py-6">
 				<h1 className="font-bold font-sans text-2xl text-center py-6 text-center">
@@ -146,23 +266,17 @@ function EditAccount() {
 				</h1>
 				<button
 					className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
-					onClick={ updateProfile }
+					onClick={ handleUpdate }
 				>
 					Save
 				</button>
-				<button
-					className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
-					onClick={ logout }
-				>
-					Logout
-				</button>
 			</div>
 
-			<form className="">
+			<form onSubmit={ handleUpdate }>
 				<div className="flex items-center justify-center flex-col pb-3">
 					<div className="relative w-48 h-48 rounded-full overflow-hidden">
 						<img
-							src="https://via.placeholder.com/300x300"
+							src={ userImage === "" ? "https://via.placeholder.com/300x300" : userImage }
 							alt="Profile"
 							className="w-full h-full object-cover"
 						/>
@@ -170,9 +284,18 @@ function EditAccount() {
 							<label
 								className="text-white font-bold cursor-pointer"
 							>
+								<input type="file" id="profile-pic-upload" className="hidden"
+									onChange={ event => {
+
+										const reader = new FileReader()
+										reader.addEventListener("load", readerEvent => {
+											setUserImage(readerEvent.target.result)
+										})
+										reader.readAsDataURL(event.target.files[0])
+									}}
+								/>
 								Upload Picture
 							</label>
-							<input type="file" id="profile-pic-upload" className="hidden" />
 						</div>
 					</div>
 				</div>
@@ -183,8 +306,9 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ (event) => { setLastName(event.currentTarget.value) } }
+					onChange={ (event) => { setLastName(event.target.value) } }
 					value = { lastname }
+					required
 				/>
 
 				<label className="font-medium">
@@ -193,7 +317,7 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-					onChange={ (event) => { setFirstName(event.currentTarget.value) } }
+					onChange={ (event) => { setFirstName(event.target.value) } }
 					value={ firstname }
 				/>
 				<div className="flex justify-between items-center py-3 gap-2">
@@ -202,8 +326,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-							onChange={ (event) => { setMiddleName(event.currentTarget.value) } }
-							value={ middlename ? middlename : "N/A" }
+							onChange={ (event) => { setMiddleName(event.target.value) } }
+							value={ middlename }
 						/>
 					</div>
 
@@ -212,8 +336,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-							onChange={ (event) => { setSuffix(event.currentTarget.value) } }
-							value={ suffix ? suffix : "N/A" }
+							onChange={ (event) => { setSuffix(event.target.value) } }
+							value={ suffix }
 						/>
 					</div>
 				</div>
@@ -224,16 +348,16 @@ function EditAccount() {
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ (event) => { setContactNo(event.currentTarget.value) } }
-					value={ contactNo ? contactNo : "N/A" }
+					onChange={ (event) => { setContactNo(event.target.value) } }
+					value={ contactNo }
 				/>
 
 				<label className="font-medium">Telephone Number </label>
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-					onChange={ (event) => { setTelephoneNo(event.currentTarget.value) } }
-					value={ telephoneNo ? telephoneNo : "N/A" }
+					onChange={ (event) => { setTelephoneNo(event.target.value) } }
+					value={ telephoneNo }
 				/>
 
 				<label className="font-medium">
@@ -260,8 +384,8 @@ function EditAccount() {
 								<input
 									type="text"
 									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-									onChange={ (event) => { setBlock(event.currentTarget.value) } }
-									value={ block ? block : "N/A" }
+									onChange={ (event) => { setBlock(event.target.value) } }
+									value={ block }
 								/>
 							</div>
 
@@ -272,8 +396,8 @@ function EditAccount() {
 								<input
 									type="text"
 									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-									onChange={ (event) => setLot(event.currentTarget.value) }
-									value={ lot ? lot : "N/A" }
+									onChange={ (event) => setLot(event.target.value) }
+									value={ lot }
 								/>
 							</div>
 
@@ -284,8 +408,8 @@ function EditAccount() {
 								<input
 									type="text"
 									className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-									onChange={ (event) => { setHouseNo(event.currentTarget.value) } }
-									value={ houseNo ? houseNo : "N/A" }
+									onChange={ (event) => { setHouseNo(event.target.value) } }
+									value={ houseNo }
 								/>
 							</div>
 						</div>
@@ -296,8 +420,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ event => { setProvince(event.currentTarget.value) } }
-							value={ province ? province : "N/A" }
+							onChange={ event => { setProvince(event.target.value) } }
+							value={ province }
 						/>
 
 						<label className="font-medium">
@@ -306,8 +430,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" 
-							onChange={ event => { setBarangay(event.currentTarget.value) } }
-							value={ barangay ? barangay : "N/A" }
+							onChange={ event => { setBarangay(event.target.value) } }
+							value={ barangay }
 						/>
 
 						<label className="font-medium">
@@ -316,8 +440,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ event => setRegion(event.currentTarget.value) }
-							value={ region ? region : "N/A" }
+							onChange={ event => setRegion(event.target.value) }
+							value={ region }
 						/>
 
 						<label className="font-medium">
@@ -326,8 +450,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ event => { setCity(event.currentTarget.value) } }
-							value={ city ? city : "N/A" }
+							onChange={ event => { setCity(event.target.value) } }
+							value={ city }
 						/>
 						<label className="font-medium">
 							Zip code <span className="text-red-500">*</span>
@@ -335,8 +459,8 @@ function EditAccount() {
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-							onChange={ event => { setZipcode(event.currentTarget.value) } }
-							value={ zipcode ? zipcode : "N/A"}
+							onChange={ event => { setZipcode(event.target.value) } }
+							value={ zipcode }
 						/>
 					
 					</>
@@ -345,7 +469,7 @@ function EditAccount() {
 				
 				{ userType === "Fixer" &&
 					<div>
-						
+
 						<div className="py-5 ">
 							<label className="font-medium fon-sans">
 								Title <span className="text-red-500">*</span>
@@ -358,8 +482,8 @@ function EditAccount() {
 							<input
 								type="text"
 								className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
-								onChange={ event => { setTitle(event.currentTarget.value) } }
-								value={ title ? title : "N/A"}
+								onChange={ event => { setTitle(event.target.value) } }
+								value={ title }
 							/>
 						</div>
 
@@ -373,7 +497,7 @@ function EditAccount() {
 									<input
 										type="number"
 										className="w-full pl-8 px-3 py-2  text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
-										onChange={ event => { setRate(event.currentTarget.value) } }
+										onChange={ event => { setRate(event.target.value) } }
 										value={ rate ? rate : 0 }
 									/>
 									<div className="absolute inset-y-0 left-1 flex items-center">
@@ -404,59 +528,41 @@ function EditAccount() {
 								className="border border-grey-200 focus:outline-green-500"
 								rows="7"
 								cols="35"
-								onChange={ event => { setOverview(event.currentTarget.value) } }
-								value={ overview ? overview : "N/A" } 
+								onChange={ event => { setOverview(event.target.value) } }
+								value={ overview } 
 							></textarea>
 						</div>
+						
+						<div>
+							<h1 className="font-sans text-start text-lg font-medium space-y-3">Skills</h1>
 
-						<h1 className="font-sans font-medium text-lg text-center py-3 text-start pt-6">
-							Skills
-						</h1>
-						<div className="flex justify-between items-center py-6">
-							{	
-								skills?.map( (element, index) => {
-									return <div key={ index }>
-										<select
-												key={ index }
-												onChange={ event => { 
-													let newSkills = skills.map( (currentElement, currentIndex) => {
-														if ( currentIndex === index){
-															return event.currentTarget.value
-														}else{
-															return currentElement
-														}
-													})
-													setSkills(newSkills); 
-												}} 
-												name={ skills }
-												className="px-3 py-2 border border-grey-200 rounded-md focus:outline-green-500"
-												value={ element }
-											>
-												<option>Select Skills</option>
-												<option value={ "Painter" }>Painter</option>
-												<option value={ "Plumber" } >Plumber</option>
-												<option value={ "Carpenter" } >Carpenter</option>
-												<option value={ "Masonry" } >Masonry</option>
-												<option value={ "Framer" } >Framer</option>
-												<option value={ "Electrician" } >Electrician</option>
-												<option value={ "Roofer" } >Roofer</option>
-												<option value={ "Pipe Fitter" } >Pipe Fitter</option>
-										</select>
-									</div> 
-									
-								})
-							}
-
-							<button
-								className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
-								type="button"
-								onClick={ event => {
-									setSkills([ ...skills, "" ])
-								}}
-							>
-								Add
-							</button>
+							<div className="flex justify-between">
 							
+							<div className="">
+								<input type="checkbox" value="Carpenter" defaultChecked={ carpenty } onChange={ event => { setCarpentry(event.target.value) }} />
+								<label>Carpenter</label><br></br>
+								<input type="checkbox" value="Plumber" defaultChecked={ plumber } onChange={ event => { setPlumber(event.target.value) }}/>
+								<label>Plumber</label><br></br>	
+								<input type="checkbox" value="Electrician" defaultChecked={ electrician } onChange={ event => { setElectrician(event.target.value) }}/>
+								<label>Electrician</label><br></br>
+								<input type="checkbox" value="Tiles setter" defaultChecked={ tileSetter } onChange={ event => { setTileSetter(event.target.value) }}/>
+								<label>Tiles setter</label><br></br>
+								<input type="checkbox" value="Roofer" defaultChecked={ roofer } onChange={ event => { setRoofer(event.target.value) }}/>
+								<label>Roofer</label>
+							</div>
+
+							<div>
+							<input type="checkbox" value="Mason" defaultChecked={ mason } onChange={ event => { setMason(event.target.value) }}/>
+							<label>Mason</label><br></br>
+							<input type="checkbox" value="Flooring" defaultChecked={ flooring } onChange={ event => { setFlooring(event.target.value) }}/>
+							<label>Flooring</label><br></br>
+							<input type="checkbox" value="Concrete" defaultChecked={ concrete } onChange={ event => { setConcrete(event.target.value) }}/>
+							<label>Concrete</label><br></br>
+							<input type="checkbox" value="Pipefitter" defaultChecked={ pipeFitter } onChange={ event => { setPipeFitter(event.target.value) }}/>
+							<label>Pipefitter</label><br></br>
+							</div>
+
+							</div>
 						</div>
 
 						
@@ -466,31 +572,107 @@ function EditAccount() {
 								Certifications
 							</h1>
 
-							<button
-								className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
-								type="button"
-							>
-								Add
-							</button>
+								<button
+									type="button" id="certificate_add" className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
+									onClick={ async event => {
+										
+										const { value: file } = await Swal.fire({
+											title: 'Select Certificate image',
+											input: 'file',
+											inputAttributes: {
+											  'accept': 'image/*',
+											  'aria-label': 'Upload your certificate image'
+											}
+										})
+										  
+										if (file) {
+											const reader = new FileReader()
+											reader.onload = async (e) => {
+												const { value: description } = await Swal.fire({
+													title: 'Enter certification description',
+													input: 'text',
+													inputLabel: 'Certification Description',
+													imageUrl: e.target.result,
+													imageAlt: 'The uploaded picture',
+													showCancelButton: true,
+													inputValidator: (value) => {
+														if (!value) {
+															return 'You need to write something!'
+														}
+													}
+												})
+												  
+												if (description) {
+													setCertification( previous => [ ...previous, {file: e.target.result, description: description} ])
+												}
+											}
+											reader.readAsDataURL(file)
+										}			
+														
+									}}
+								>Add</button>
 						</div>
+						{
+							certification && 
+							certification.map( (element, index) => {
+								return <>
+									<div key={index} className="flex-col place-content-center my-auto border-solid border-2 justify-between align-center text-center px-2">
+										
+										<img className="text-center mx-auto" src={ element.file } alt={ element.file.name } />
+										<h5> { element.description } </h5>
+										<button className="bg-red-600 font-sans text-white px-6 p-2 hover:bg-red-500" value={ index } type="button">Remove</button>
+									</div>
+								</>
+							})
+						}
 
 						<div className="flex justify-between items-center py-6">
 							<h1 className="font-sans font-medium text-lg text-center py-3">
 								Employment history
 							</h1>
 
-							<button
-								type="button"
-								className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
+							<label
+								className=""
 							>
-								Add
-							</button>
+								<button
+									type="button" id="experience_add" className="bg-primary font-sans text-white px-6 p-2 hover:bg-green-500"
+									onClick={ async event => {
+										const { value: experienceInput } = await Swal.fire({
+											title: 'Enter experience entailment',
+											input: 'text',
+											showCancelButton: true,
+											inputValidator: (value) => {
+												if (!value) {
+													return 'You need to write something!'
+												}
+											}
+										})
+										  
+										if (experienceInput) {
+											setExperience( previous => [...previous, experienceInput])
+										}
+									}}
+								>Add</button>
+							</label>
 						</div>
+						<ul className="list-disc">
+							{
+								experience && 
+								experience.map( (element, index) => {
+									return <>
+										<li key={index} className="justify-start flex flex-row align-center">
+											<h5> { element } </h5>
+										</li>
+									</>
+								})
+							}
+						</ul>
 					</div>
 					
 				}
 			</form>
 		</div>
+	</>
 	);
 }
 

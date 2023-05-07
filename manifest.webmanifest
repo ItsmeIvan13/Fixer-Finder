@@ -1,0 +1,11 @@
+{
+    "theme_color": "#14a800",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/index.js",
+    "name": "Fixer Finder",
+    "description": "You find it, we fix it",
+    "short_name": "FixFind",
+    "icons": []
+}

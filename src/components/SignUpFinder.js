@@ -35,7 +35,8 @@ function SignUpFinder() {
                         FirstName: registerFirstName,
                         Lastname: registerLastName,
                         AccountType: "Finder",
-                        UID: auth.currentUser.uid
+                        UID: auth.currentUser.uid,
+                        profilePicture: "",
                     })
                 })
             })
@@ -49,7 +50,7 @@ function SignUpFinder() {
         onAuthStateChanged(auth, (user) => {
             if(user){
                 // User just logged in
-                navigate("/dashboard")
+                navigate("/finder/dashboard")
             }
         })
     }, [navigate])

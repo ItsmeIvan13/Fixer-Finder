@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { doc, getDoc } from "firebase/firestore"
 import { HiUser } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 function HomePage() {
 	const [username, setUsername] = useState("");
@@ -16,14 +17,16 @@ function HomePage() {
 		try {
 			await signInWithEmailAndPassword(auth, username, password);
 		} catch (e) {
-			console.log(e);
+            Swal.fire({
+                title: e,
+                icon: "error"
+            })
 		}
 	};
 
 	useEffect( () => {
 		onAuthStateChanged(auth, async (user) => {
             if(user){
-                sessionStorage.setItem("UID", user.uid)
                 await getDoc(doc(db, "users", auth.currentUser.uid)).then( async (userInformation) => {
                     const finalData = (await (userInformation.data()))
                     if(finalData.AccountType === "Finder"){
