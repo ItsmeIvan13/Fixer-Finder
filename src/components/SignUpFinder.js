@@ -46,7 +46,7 @@ function SignUpFinder() {
         }
     }
 
-    useEffect( () => {
+  {/*   useEffect( () => {
         onAuthStateChanged(auth, (user) => {
             if(user){
                 // User just logged in
@@ -54,7 +54,7 @@ function SignUpFinder() {
             }
         })
     }, [navigate])
-
+*/}
     return ( 
         <div>
             <div className='container mx-auto p-3 flex flex-col justify-center items-center'>

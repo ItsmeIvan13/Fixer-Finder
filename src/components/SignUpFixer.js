@@ -63,7 +63,7 @@ function SignUpFixer() {
         }
     }
     
-
+  {/*
     useEffect( () => {
         onAuthStateChanged(auth, async (user) => {
             if(user){
@@ -72,7 +72,7 @@ function SignUpFixer() {
             }
         })
     }, [navigate])
-
+*/}
     return ( 
         <div className='container mx-auto p-3 flex flex-col justify-center items-center'>
             <img src={logo} className='w-28' alt='Fixer_Finder'/>
@@ -105,7 +105,7 @@ function SignUpFixer() {
                     }}
                 />
                 <input 
-                    type='text' 
+                    type='password' 
                     className='w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 ' 
                     placeholder='Password (8 or more characters)'
                     onChange={ (event) => {

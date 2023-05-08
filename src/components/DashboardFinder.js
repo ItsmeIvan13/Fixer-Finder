@@ -295,8 +295,14 @@ function DashboardFinder() {
     }
 
 	const [isOpen, setIsOpen] = useState(false);
+<<<<<<< HEAD
     return (
         // SET TO EMAIL MUNA YUNG SA USERNAME, SETTUP KO PA MUNA YUNG NEED KASI SABAY DAPAT SA REGISTRATION
+=======
+{/* if(auth.currentUser) */} 
+        return (
+            // SET TO EMAIL MUNA YUNG SA USERNAME, SETTUP KO PA MUNA YUNG NEED KASI SABAY DAPAT SA REGISTRATION
+>>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 
         <>
             {/* ICON NG SIDEBAR*/}
@@ -308,6 +314,7 @@ function DashboardFinder() {
                 <CgMenuLeftAlt className="w-8 h-16" />
             </button>
 
+<<<<<<< HEAD
             {/* SIDE BAR MENU */}
             <Menu
                 isOpen={isOpen}
@@ -326,6 +333,18 @@ function DashboardFinder() {
                 <div className="py-6">
                     <div className="flex flex-row justify-start items-start gap-2">
                         <MdManageAccounts className="h-5 w-5" />
+=======
+                {/* SIDE BAR MENU */}
+                <Menu
+                    isOpen={isOpen}
+                    onStateChange={(state) => setIsOpen(state.isOpen)}
+                    className="flex flex-col justify-center items-center pt-32 bg-gray-200"
+                >
+                 {/*   <h1>Welcome! {auth.currentUser.email}</h1>*/}
+                    <div className="py-6">
+                        <div className="flex flex-row justify-start items-start gap-2">
+                            <MdManageAccounts className="h-5 w-5"/>
+>>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
                         <a id="home" className="" href="/accountsettings">
                             Account
                         </a>
@@ -425,6 +444,7 @@ function DashboardFinder() {
                         </button>
                     </div>
                 </div>
+<<<<<<< HEAD
 
                 <h1 className="pt-9 font-sans font-medium text-sm">Top Fixers</h1>
 
@@ -439,6 +459,13 @@ function DashboardFinder() {
             { fixerViewActive ? <FixerView id={ activeFixer } setter={ setFixerViewActive } /> : null }
         </>
     )
+=======
+            </>
+        )
+  {/*     else{
+        <Navigate replace to="/"/>
+    }*/} 
+>>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 }
 
 export default DashboardFinder;

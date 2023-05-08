@@ -180,6 +180,7 @@ function DashboardFixer() {
 					</label>
 					<textarea className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ overview }>
 
+<<<<<<< HEAD
 					</textarea>
 				</div>
 				<hr className="my-5"></hr>
@@ -250,6 +251,90 @@ function DashboardFixer() {
 			</div>
 		</>
 	)
+=======
+  const [isOpen, setIsOpen] = useState(false);
+ {/* if (auth.currentUser)   */}
+    return (
+      // SET TO EMAIL MUNA YUNG SA USERNAME, SETTUP KO PA MUNA YUNG NEED KASI SABAY DAPAT SA REGISTRATION
+
+      <>
+        {/* ICON NG SIDEBAR*/}
+
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bm-burger-button p-3"
+        >
+          <CgMenuLeftAlt className="w-8 h-16" />
+        </button>
+
+        {/* SIDE BAR MENU */}
+        <Menu
+          isOpen={isOpen}
+          onStateChange={(state) => setIsOpen(state.isOpen)}
+          className="flex flex-col justify-center items-center pt-32 bg-gray-200"
+        >
+    {/*       <h1>Welcome! { userDisplayName }</h1>  */}
+          <div className="py-6">
+            <div className="flex flex-row justify-start items-start gap-2">
+              <MdManageAccounts className="h-5 w-5" />
+              <a id="home" className="" href="/accountsettings">
+                Account
+              </a>
+            </div>
+          </div>
+          <div className="py-6 ">
+            <div className="flex flex-row justify-start items-start gap-2 ">
+              <BiHomeAlt2 className="h-5 w-5" />
+              <a id="about" className="text-base" href="/fixer/dashboard">
+                Home
+              </a>
+            </div>
+          </div>
+          <div className="py-6">
+            <div className="flex flex-row justify-start items-start gap-2 ">
+              <BsFillClipboard2CheckFill className="h-5 w-5" />
+              <a id="contact" className="" href="/message">
+                Activity
+              </a>
+            </div>
+          </div>
+          <div className="py-6">
+            <div className="flex flex-row justify-start items-start gap-2">
+              <BiLogOut className="h-5 w-5" />
+              <button onClick={logout}>Logout</button>
+            </div>
+          </div>
+          <div className="pt-3"></div>
+        </Menu>
+
+        <div className="container mx-auto p-3">
+
+      <h1 className="text-center space-y-6 font-sans font-medium text-medium pt-6">Welcome Fixer!</h1>
+
+        <div className="flex justify-center items-center gap-3 pt-6">
+          <div className="bg-primary p-3 rounded-lg">
+          <h1 className="text-white font-sans text-center">Transaction</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+          <div className="bg-primary p-3 rounded-lg">
+          <h1 className="text-white font-sans text-center">Contracts</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+          <div className="bg-primary p-3 rounded-xl">
+          <h1 className="text-white font-sans text-center">Messages</h1>
+          <h3 className="text-white font-sans text-center text-sm">0</h3>
+          </div>
+        </div>
+
+        </div>
+      </>
+    );
+ {/* else {
+    return <Navigate replace to="/" />;
+  }
+*/}
+  
+>>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 }
 
 export default DashboardFixer;
