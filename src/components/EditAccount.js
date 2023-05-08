@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db, storage } from "../firebase" 
 import { getDoc, doc, updateDoc, addDoc, setDoc } from "firebase/firestore";
-<<<<<<< HEAD
 import Swal from "sweetalert2";
 import { ref, uploadBytes } from "firebase/storage";
 import { slide as Menu, CrossIcon } from "react-burger-menu"; //para sa slide menu
@@ -14,19 +13,6 @@ import {
 	BsFillClipboard2CheckFill,
 } from "react-icons/bs";
 import { BiHomeAlt2, BiLogOut } from "react-icons/bi";
-=======
-import { CgMenuLeftAlt } from "react-icons/cg";
-import { MdPersonSearch, MdManageAccounts } from "react-icons/md";
-import { slide as Menu, CrossIcon } from "react-burger-menu"; //para sa slide menu
-import {
-	BsPersonCircle,
-	BsFillArrowRightCircleFill,
-	BiHomeAlt,
-	BsFillClipboard2CheckFill,
-  } from "react-icons/bs";
-  import { BiHomeAlt2, BiLogOut } from "react-icons/bi";
-
->>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 function EditAccount() {
 	
 	const navigate = useNavigate()
@@ -210,7 +196,7 @@ function EditAccount() {
 	}
 
 	
- {/*	 useEffect(() => {
+	useEffect(() => {
 		
 		onAuthStateChanged(auth, (user) => {
 			if (!user) {
@@ -221,7 +207,6 @@ function EditAccount() {
 			getUser()
 		});
 		
-<<<<<<< HEAD
 	}, []);
 
 	
@@ -274,70 +259,6 @@ function EditAccount() {
 			</div>
 			<div className="pt-3"></div>
 		</Menu>
-=======
-	}, []);*/} 
-
-	const [isOpen, setIsOpen] = useState(false);
-	return (
-
-
-<>
-
-   {/* ICON NG SIDEBAR*/}
-
-   <button
-        onClick={() => setIsOpen(true)}
-          className="bm-burger-button p-3"
-        >
-          <CgMenuLeftAlt className="w-8 h-16" />
-        </button>
-
-        {/* SIDE BAR MENU */}
-        <Menu
-        isOpen={isOpen}
-		onStateChange={(state) => setIsOpen(state.isOpen)}
-          className="flex flex-col justify-center items-center pt-32 bg-gray-200"
-        >
-    {/*       <h1>Welcome! { userDisplayName }</h1>  */}
-          <div className="py-6">
-            <div className="flex flex-row justify-start items-start gap-2">
-              <MdManageAccounts className="h-5 w-5" />
-              <a id="home" className="" href="/accountsettings">
-                Account
-              </a>
-            </div>
-          </div>
-          <div className="py-6 ">
-            <div className="flex flex-row justify-start items-start gap-2 ">
-              <BiHomeAlt2 className="h-5 w-5" />
-              <a id="about" className="text-base" href="">
-                Home
-              </a>
-            </div>
-          </div>
-          <div className="py-6">
-            <div className="flex flex-row justify-start items-start gap-2 ">
-              <BsFillClipboard2CheckFill className="h-5 w-5" />
-              <a id="contact" className="" href="/message">
-                Activity
-              </a>
-            </div>
-          </div>
-          <div className="py-6">
-            <div className="flex flex-row justify-start items-start gap-2">
-              <BiLogOut className="h-5 w-5" />
-              <button onClick={logout}>Logout</button>
-            </div>
-          </div>
-          <div className="pt-3"></div>
-        </Menu>
-
-
-
-
-
-		
->>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 		<div className="container mx-auto p-3 flex-row justify-start items-start">
 			<div className="flex justify-between items-center py-6">
 				<h1 className="font-bold font-sans text-2xl text-center py-6 text-center">
@@ -783,15 +704,8 @@ function EditAccount() {
 				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
 	</>
 	);
-=======
-
-		</>
-		
-		);
->>>>>>> dbf006c86637f371df6e18c52a9eaff867388fff
 }
 
 export default EditAccount;
