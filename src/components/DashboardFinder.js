@@ -193,7 +193,7 @@ function DashboardFinder() {
                             <TbX className="w-6 h-6 text-primary" />
                         </button>
                     </div>
-                    <div className="flex items-center justify-center flex-col pb-3  my-5">
+                    <div className="flex items-center justify-center flex-col pb-3 ">
                         <div className="relative w-48 h-48 rounded-full overflow-hidden">
                             <img
                                 src={ userImage === "" ? "https://via.placeholder.com/300x300" : userImage }
@@ -202,36 +202,36 @@ function DashboardFinder() {
                             />
                         </div>
                     </div>
-                    <div className="flex items-center justify-center col-3 mx-5">
-                        <div className="flex flex-col">
-                            <label className="font-medium">
+                    <div className="flex items-center justify-center gap-2">
+                        <div className="">
+                            <label className="font-medium font-sans text-xs">
                                 Last name 
                             </label>
                             <input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ lastname } />
                         </div>
-                        <div className="flex flex-col mx-5" >
-                            <label className="font-medium">
+                        <div className="" >
+                            <label className="font-medium font-sans text-xs">
                                 First Name 
                             </label>
                             <input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ firstname } />
                         </div>
-                        <div className="flex flex-col">
-                            <label className="font-medium">
+                        <div className="">
+                            <label className="font-medium font-sans text-xs">
                                 Middle Name 
                             </label>
                             <input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ middlename } />
                         </div>
                     </div>
-                    <div className="flex items-center justify-center col-2">
-                        <div className="flex flex-col mr-5">
-                            <label className="font-medium">
-                                Title:
+                    <div className="flex justify-between gap-2">
+                        <div className="">
+                            <label className="font-medium font-sans text-sm">
+                                Job Title
                             </label>
                             <input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ title } />
                         </div>
-                        <div className="flex flex-col ml-5">
-                            <label className="font-medium">
-                                Rate:
+                        <div className="">
+                            <label className="font-medium font-sans text-sm">
+                                Rate
                             </label>
                             <div className="relative">
                                 <input
@@ -247,11 +247,11 @@ function DashboardFinder() {
                             </div>	
                         </div>
                     </div>
-                    <div className="flex flex-col items-center text-left justify-start mx-5">
-                        <label className="font-medium">
-                            Overview:
+                    <div className="flex-col">
+                        <label className="font-medium font-sans text-sm">
+                            Overview
                         </label>
-                        <textarea className="w-full mx-5 px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ overview }>
+                        <textarea className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ overview }>
 
                         </textarea>
                     </div>
@@ -304,6 +304,8 @@ function DashboardFinder() {
             <button
                 onClick={() => {setIsOpen(true)}}
                 className="bm-burger-button p-3"
+                style={{ position: "fixed" }}
+
             >
                 <CgMenuLeftAlt className="w-8 h-16" />
             </button>

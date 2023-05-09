@@ -129,41 +129,42 @@ function DashboardFixer() {
 						/>
 					</div>
 				</div>
-				<div className="flex items-center justify-center col-3 mx-5">
+				<div className="flex items-center justify-center">
 					<div className="flex flex-col">
-						<label className="font-medium">
+						<label className="font-medium text-sm font-sans">
 							Last name 
 						</label>
 						<input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ lastname } />
 					</div>
 					<div className="flex flex-col mx-5" >
-						<label className="font-medium">
+						<label className="font-medium text-sm font-sans">
 							First Name 
 						</label>
 						<input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ firstname } />
 					</div>
 					<div className="flex flex-col">
-						<label className="font-medium">
+						<label className="font-medium text-sm font-sans">
 							Middle Name 
 						</label>
 						<input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ middlename } />
 					</div>
 				</div>
-				<div className="flex items-center text-left justify-start mx-auto col-2">
-					<div className="flex flex-col">
-						<label className="font-medium">
-							Title:
+				<div className="flex gap-3">
+					<div className="">
+						<label className="font-medium text-sm font-sans">
+							Job Title
 						</label>
 						<input readOnly className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ title } />
 					</div>
-					<div className="flex flex-col">
-						<label className="font-medium">
-							Rate:
+
+					<div className="">
+						<label className="font-medium text-sm font-sans">
+							Rate
 						</label>
 						<div className="relative">
 							<input
 								type="number"
-								className="w-full -8 px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
+								className="w-full  px-6 py-2  text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
 								onChange={ event => { setRate(event.currentTarget.value) } }
 								value={ rate ? rate : 0 }
 								readOnly
@@ -176,7 +177,7 @@ function DashboardFixer() {
 				</div>
 				<div className="flex flex-col items-center text-left justify-start mx-auto">
 					<label className="font-medium">
-						Overview:
+						Overview
 					</label>
 					<textarea className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3" value={ overview }>
 
@@ -216,7 +217,7 @@ function DashboardFixer() {
 				<div className="flex items-center text-left justify-center mx-auto col-2 my-5">
 					<div className="flex flex-col mx-5">
 						<label className="font-medium">
-							Profile Views:
+							Profile Views
 						</label>
 						<div className="relative">
 							<input
@@ -232,7 +233,7 @@ function DashboardFixer() {
 					</div>
 					<div className="flex flex-col mx-5">
 						<label className="font-medium">
-							Matches:
+							Matches
 						</label>
 						<div className="relative">
 							<input

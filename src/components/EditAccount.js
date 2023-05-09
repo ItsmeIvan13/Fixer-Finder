@@ -300,7 +300,7 @@ function EditAccount() {
 					</div>
 				</div>
 
-				<label className="font-medium">
+				<label className="font-medium font-sans text-sm">
 					Last name <span className="text-red-500">*</span>
 				</label>
 				<input
@@ -311,7 +311,7 @@ function EditAccount() {
 					required
 				/>
 
-				<label className="font-medium">
+				<label className="font-medium font-sans text-sm">
 					First name<span className="text-red-500">*</span>
 				</label>
 				<input
@@ -322,7 +322,7 @@ function EditAccount() {
 				/>
 				<div className="flex justify-between items-center py-3 gap-2">
 					<div>
-						<label className="font-medium">Middle name</label>
+						<label className="font-medium font-sans text-sm">Middle name</label>
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
@@ -332,7 +332,7 @@ function EditAccount() {
 					</div>
 
 					<div>
-						<label className="font-medium">Suffix</label>
+						<label className="font-medium font-sans text-sm">Suffix</label>
 						<input
 							type="text"
 							className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
@@ -342,7 +342,7 @@ function EditAccount() {
 					</div>
 				</div>
 
-				<label className="font-medium">
+				<label className="font-medium font-sans text-sm">
 					Contact Number <span className="text-red-500">*</span>
 				</label>
 				<input
@@ -352,7 +352,7 @@ function EditAccount() {
 					value={ contactNo }
 				/>
 
-				<label className="font-medium">Telephone Number </label>
+				<label className="font-medium font-sans text-sm">Telephone Number </label>
 				<input
 					type="text"
 					className="w-full px-3 py-2 text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 mb-3"
@@ -360,7 +360,7 @@ function EditAccount() {
 					value={ telephoneNo }
 				/>
 
-				<label className="font-medium">
+				<label className="font-medium font-sans text-sm">
 					Email Address <span className="text-red-500">*</span>
 				</label>
 				<input
@@ -471,8 +471,8 @@ function EditAccount() {
 					<div>
 
 						<div className="py-5 ">
-							<label className="font-medium fon-sans">
-								Title <span className="text-red-500">*</span>
+							<label className="font-medium fon-sans text-sm">
+							Job	Title <span className="text-red-500">*</span>
 							</label>
 							<br></br>
 							<span className="text-xs font-sans">
@@ -488,7 +488,7 @@ function EditAccount() {
 						</div>
 
 						<div className="py-5 ">
-							<label className="font-medium font-sans">
+							<label className="font-medium font-sans text-sm">
 								Hourly Rate <span className="text-red-500">*</span>
 							</label>
 							<br></br>
@@ -498,7 +498,7 @@ function EditAccount() {
 										type="number"
 										className="w-full pl-8 px-3 py-2  text-md font-medium border border-grey-200 rounded-md focus:outline-green-500 "
 										onChange={ event => { setRate(event.target.value) } }
-										value={ rate ? rate : 0 }
+										value={ rate ? rate : "0" }
 									/>
 									<div className="absolute inset-y-0 left-1 flex items-center">
 										<TbCurrencyPeso className="w-6 h-6 text-primary" />
@@ -525,7 +525,7 @@ function EditAccount() {
 							</ul>
 
 							<textarea
-								className="border border-grey-200 focus:outline-green-500"
+								className="border border-grey-200 focus:outline-green-500 p-3"
 								rows="7"
 								cols="35"
 								onChange={ event => { setOverview(event.target.value) } }
@@ -534,7 +534,7 @@ function EditAccount() {
 						</div>
 						
 						<div>
-							<h1 className="font-sans text-start text-lg font-medium space-y-3">Skills</h1>
+							<h1 className="font-sans text-start text-lg font-medium space-y-3">Skills<span className="text-red-500">*</span></h1>
 
 							<div className="flex justify-between">
 							
@@ -672,37 +672,7 @@ function EditAccount() {
 				}
 			</form>
 
-			<div>
-				<h1 className="font-sans text-start text-lg font-medium space-y-3">Skills</h1>
-
-				<div className="flex justify-between">
-				
-				<div className="">
-				<input type="checkbox" value="Painter"/>
-				<label>Painter</label><br></br>
-				<input type="checkbox" value="Plumber"/>
-				<label>Plumber</label><br></br>
-				<input type="checkbox" value="Electrician"/>
-				<label>Electrician</label><br></br>
-				<input type="checkbox" value="Tiles setter"/>
-				<label>Tiles setter</label><br></br>
-				<input type="checkbox" value="Roofer"/>
-				<label>Roofer</label>
-				</div>
-
-				<div>
-				<input type="checkbox" value="Mason"/>
-				<label>Mason</label><br></br>
-				<input type="checkbox" value="Flooring"/>
-				<label>Flooring</label><br></br>
-				<input type="checkbox" value="Concrete"/>
-				<label>Concrete</label><br></br>
-				<input type="checkbox" value="Pipefitter"/>
-				<label>Pipefitter</label><br></br>
-				</div>
-
-				</div>
-			</div>
+			
 		</div>
 	</>
 	);
